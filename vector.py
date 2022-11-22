@@ -3,7 +3,9 @@ import math
 
 class Vector(object):
     CANNOT_NORMALIZE_ERR_MSG = 'ERR: Zero vector cannot be normalized'
-    CANNOT_COMPUTE_ANGLE = 'ERR: Cannot compute an angle with a zero vector'
+    CANNOT_COMPUTE_ANGLE_MSG = 'ERR: Cannot compute an angle with a zero vector'
+    CANNOT_FIND_UNIQUE_PARALLEL_COMP_MSG = 'ERR: Cannot find a unique parallel component'
+    CANNOT_FIND_UNIQUE_ORTHOGONAL_COMP_MSG = 'ERR: Cannot find a unique orthogonal component'
 
     def __init__(self, coordinates):
         try:
@@ -58,7 +60,7 @@ class Vector(object):
 
         except Exception as e:
             if str(e) == self.CANNOT_NORMALIZE_ERR_MSG:
-                raise Exception(self.CANNOT_COMPUTE_ANGLE)
+                raise Exception(self.CANNOT_COMPUTE_ANGLE_MSG)
             else:
                 raise e
 
@@ -75,3 +77,26 @@ class Vector(object):
                 self.angle_with(v) == 0 or
                 self.angle_with(v) == math.pi
         )
+
+    def component_parallel_to(self, basis_v):
+        try:
+            basis_u = basis_v.normalize()
+            mag = self.dot_product(basis_u)
+            return basis_u.scalar_product(mag)
+
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ERR_MSG:
+                raise Exception(self.CANNOT_FIND_UNIQUE_PARALLEL_COMP_MSG)
+            else:
+                raise e
+
+    def component_orthogonal_to(self, basis_v):
+        try:
+            projection = self.component_parallel_to(basis_v)
+            return self - projection
+
+        except Exception as e:
+            if str(e) == self.CANNOT_FIND_UNIQUE_PARALLEL_COMP_MSG:
+                raise Exception(self.CANNOT_FIND_UNIQUE_ORTHOGONAL_COMP_MSG)
+            else:
+                raise e
