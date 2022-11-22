@@ -1,3 +1,4 @@
+import math
 class Vector(object):
     def __init__(self, coordinates):
         try:
@@ -29,3 +30,13 @@ class Vector(object):
     def product_scalar(self, c):
         new_v = [c * x for x in self.coordinates]
         return Vector(new_v)
+
+    def magnitude(self):
+        return math.sqrt(sum([math.pow(x, 2) for x in self.coordinates]))
+
+    def normalized(self):
+        try:
+            return self.product_scalar(1.0 / self.magnitude())
+        except ZeroDivisionError:
+            raise Exception('ERR: Zero vector cannot be normalized')
+
