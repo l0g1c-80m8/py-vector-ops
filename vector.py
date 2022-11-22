@@ -27,7 +27,7 @@ class Vector(object):
         new_v = [c1 - c2 for c1, c2 in zip(self.coordinates, v.coordinates)]
         return Vector(new_v)
 
-    def product_scalar(self, c):
+    def scalar_product(self, c):
         new_v = [c * x for x in self.coordinates]
         return Vector(new_v)
 
@@ -36,7 +36,7 @@ class Vector(object):
 
     def normalized(self):
         try:
-            return self.product_scalar(1.0 / self.magnitude())
+            return self.scalar_product(1.0 / self.magnitude())
         except ZeroDivisionError:
             raise Exception('ERR: Zero vector cannot be normalized')
 
