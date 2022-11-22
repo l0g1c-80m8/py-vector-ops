@@ -35,8 +35,7 @@ class Vector(object):
         return Vector(new_v)
 
     def scalar_product(self, c):
-        new_v = [c * x for x in self.coordinates]
-        return Vector(new_v)
+        return Vector([c * x for x in self.coordinates])
 
     def magnitude(self):
         return math.sqrt(sum([math.pow(x, 2) for x in self.coordinates]))
