@@ -1,5 +1,10 @@
 import math
+
+
 class Vector(object):
+    CANNOT_NORMALIZE_ERR_MSG = 'ERR: Zero vector cannot be normalized'
+    CANNOT_COMPUTE_ANGLE = 'ERR: Cannot compute an angle with a zero vector'
+
     def __init__(self, coordinates):
         try:
             if not coordinates:
@@ -38,5 +43,22 @@ class Vector(object):
         try:
             return self.scalar_product(1.0 / self.magnitude())
         except ZeroDivisionError:
-            raise Exception('ERR: Zero vector cannot be normalized')
+            raise Exception(self.CANNOT_NORMALIZE_ERR_MSG)
+
+    def dot_product(self, v):
+        return sum([x * y for x, y in zip(self.coordinates, v.coordinates)])
+
+    def angle_with(self, v, in_degrees=False):
+        try:
+            u1 = self.normalized()
+            u2 = v.normalized()
+            in_rads = math.acos(u1.dot_product(u2))
+
+            return in_rads * (180.0 / math.pi) if in_degrees else in_rads
+
+        except Exception as e:
+            if str(e) == self.CANNOT_NORMALIZE_ERR_MSG:
+                raise Exception(self.CANNOT_COMPUTE_ANGLE)
+            else:
+                raise e
 
