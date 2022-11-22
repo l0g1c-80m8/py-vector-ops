@@ -100,3 +100,21 @@ class Vector(object):
                 raise Exception(self.CANNOT_FIND_UNIQUE_ORTHOGONAL_COMP_MSG)
             else:
                 raise e
+
+    def cross_product(self, v):
+        if self.dimension == 2 and v.dimension == 2:
+            return Vector([0.,
+                           0.,
+                           (self.coordinates[0] * v.coordinates[1] - self.coordinates[1] * v.coordinates[0])])
+        elif self.dimension == 3 and v.dimension == 3:
+            return Vector([(self.coordinates[1] * v.coordinates[2] - self.coordinates[2] * v.coordinates[1]),
+                           (self.coordinates[2] * v.coordinates[0] - self.coordinates[0] * v.coordinates[2]),
+                           (self.coordinates[0] * v.coordinates[1] - self.coordinates[1] * v.coordinates[0])])
+        else:
+            return Vector([0., 0., 0.])
+
+    def area_of_parallelogram_with(self, v):
+        return self.cross_product(v).magnitude()
+
+    def area_of_triangle_with(self, v):
+        return self.area_of_parallelogram_with(v) / 2.0
