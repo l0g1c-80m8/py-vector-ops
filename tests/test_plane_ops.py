@@ -27,7 +27,7 @@ s = LinearSystem([p1, p2, p3, p4])
 r = s.compute_rref()
 if not (r[0] == Plane(normal_vector=Vector(['1', '0', '0']), constant_term='0') and
         r[1] == p2 and
-        r[2] == Plane(normal_vector=Vector(['0', '0', '-2']), constant_term='2') and
+        r[2] == Plane(normal_vector=Vector(['0', '0', '1']), constant_term='-1') and
         r[3] == Plane()):
     print('test case 3 failed')
 
