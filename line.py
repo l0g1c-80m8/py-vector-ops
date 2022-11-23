@@ -9,7 +9,7 @@ class Line(object):
     NO_NONZERO_ELTS_FOUND_MSG = 'No nonzero elements found'
 
     def __init__(self, normal_vector=None, constant_term=None):
-        self.base_point = None
+        self.basepoint = None
         self.dimension = 2
 
         if not normal_vector:
@@ -21,23 +21,23 @@ class Line(object):
             constant_term = Decimal('0')
         self.constant_term = Decimal(constant_term)
 
-        self.set_base_point()
+        self.set_basepoint()
 
-    def set_base_point(self):
+    def set_basepoint(self):
         try:
             n = self.normal_vector
             c = self.constant_term
-            base_point_coords = ['0'] * self.dimension
+            basepoint_coords = ['0'] * self.dimension
 
             initial_index = Line.first_nonzero_index(n)
             initial_coefficient = n[initial_index]
 
-            base_point_coords[initial_index] = c / initial_coefficient
-            self.base_point = Vector(base_point_coords)
+            basepoint_coords[initial_index] = c / initial_coefficient
+            self.basepoint = Vector(basepoint_coords)
 
         except Exception as e:
             if str(e) == Line.NO_NONZERO_ELTS_FOUND_MSG:
-                self.base_point = None
+                self.basepoint = None
             else:
                 raise e
 
