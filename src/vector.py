@@ -1,4 +1,10 @@
-import math
+from math import *
+from decimal import Decimal, getcontext
+
+
+class MyDecimal(Decimal):
+    def is_near_zero(self, eps=1e-10):
+        return abs(self) < eps
 
 
 class Vector(object):
@@ -11,7 +17,7 @@ class Vector(object):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple(coordinates)
+            self.coordinates = tuple([Decimal(c) for c in coordinates])
             self.dimension = len(coordinates)
 
         except ValueError:
@@ -19,6 +25,27 @@ class Vector(object):
 
         except TypeError:
             raise TypeError('ERR: The coordinates must be an iterable')
+
+    def __iter__(self):
+        self.current = 0
+        return self
+
+    def __next__(self):
+        if self.current >= len(self.coordinates):
+            raise StopIteration
+        else:
+            current_value = self.coordinates[self.current]
+            self.current += 1
+            return current_value
+
+    def next(self):
+        return self.__next__()
+
+    def __len__(self):
+        return len(self.coordinates)
+
+    def __getitem__(self, i):
+        return self.coordinates[i]
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
@@ -35,14 +62,14 @@ class Vector(object):
         return Vector(new_v)
 
     def scalar_product(self, c):
-        return Vector([c * x for x in self.coordinates])
+        return Vector([Decimal(c) * coord for coord in self.coordinates])
 
     def magnitude(self):
-        return math.sqrt(sum([math.pow(x, 2) for x in self.coordinates]))
+        return Decimal(sqrt(sum([coord * coord for coord in self.coordinates])))
 
     def normalize(self):
         try:
-            return self.scalar_product(1.0 / self.magnitude())
+            return self.scalar_product(Decimal('1.0') / self.magnitude())
         except ZeroDivisionError:
             raise Exception(self.CANNOT_NORMALIZE_ERR_MSG)
 
@@ -53,9 +80,9 @@ class Vector(object):
         try:
             u1 = self.normalize()
             u2 = v.normalize()
-            in_rads = math.acos(u1.dot_product(u2))
+            in_rads = acos(u1.dot_product(u2))
 
-            return in_rads * (180.0 / math.pi) if in_degrees else in_rads
+            return in_rads * (180.0 / pi) if in_degrees else in_rads
 
         except Exception as e:
             if str(e) == self.CANNOT_NORMALIZE_ERR_MSG:
@@ -63,8 +90,8 @@ class Vector(object):
             else:
                 raise e
 
-    def is_zero(self, tolerance=1e-10):
-        return self.magnitude() < tolerance
+    def is_zero(self):
+        return set(self.coordinates) == {Decimal(0)}
 
     def is_orthogonal_to(self, v, tolerance=1e-10):
         return abs(self.dot_product(v)) < tolerance
@@ -74,7 +101,7 @@ class Vector(object):
                 self.is_zero() or
                 v.is_zero() or
                 self.angle_with(v) == 0 or
-                self.angle_with(v) == math.pi
+                self.angle_with(v) == pi
         )
 
     def component_parallel_to(self, basis_v):
@@ -116,4 +143,4 @@ class Vector(object):
         return self.cross_product(v).magnitude()
 
     def area_of_triangle_with(self, v):
-        return self.area_of_parallelogram_with(v) / 2.0
+        return self.area_of_parallelogram_with(v) / 2
