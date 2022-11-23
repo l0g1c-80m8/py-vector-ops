@@ -101,8 +101,8 @@ class Hyperplane(object):
 
         return output
 
-    def is_parallel(self, plane2):
-        return self.normal_vector.is_parallel(plane2.normal_vector)
+    def is_parallel_to(self, plane2):
+        return self.normal_vector.is_parallel_to(plane2.normal_vector)
 
     def __eq__(self, plane2):
         if self.normal_vector.is_zero():
@@ -115,11 +115,11 @@ class Hyperplane(object):
         elif plane2.normal_vector.is_zero():
             return False
 
-        if not self.is_parallel(plane2):
+        if not self.is_parallel_to(plane2):
             return False
 
         basepoint_difference = self.basepoint - plane2.basepoint
-        return basepoint_difference.is_orthogonal(self.normal_vector)
+        return basepoint_difference.is_orthogonal_to(self.normal_vector)
 
     def __iter__(self):
         self.current = 0

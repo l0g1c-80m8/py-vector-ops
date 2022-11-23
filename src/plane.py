@@ -1,12 +1,12 @@
 from decimal import Decimal, getcontext
 
-from vector import Vector
+from src.vector import Vector
 
 getcontext().prec = 30
 
 
 class Plane(object):
-    NO_NONZERO_ELTS_FOUND_MSG = 'No nonzero elements found'
+    NO_NONZERO_ELE_FOUND_MSG = 'No nonzero elements found'
 
     def __init__(self, normal_vector=None, constant_term=None):
         self.basepoint = None
@@ -36,7 +36,7 @@ class Plane(object):
             self.basepoint = Vector(basepoint_coords)
 
         except Exception as e:
-            if str(e) == Plane.NO_NONZERO_ELTS_FOUND_MSG:
+            if str(e) == Plane.NO_NONZERO_ELE_FOUND_MSG:
                 self.basepoint = None
             else:
                 raise e
@@ -74,7 +74,7 @@ class Plane(object):
             output = ' '.join(terms)
 
         except Exception as e:
-            if str(e) == self.NO_NONZERO_ELTS_FOUND_MSG:
+            if str(e) == self.NO_NONZERO_ELE_FOUND_MSG:
                 output = '0'
             else:
                 raise e
@@ -91,7 +91,7 @@ class Plane(object):
         for k, item in enumerate(iterable):
             if not MyDecimal(item).is_near_zero():
                 return k
-        raise Exception(Plane.NO_NONZERO_ELTS_FOUND_MSG)
+        raise Exception(Plane.NO_NONZERO_ELE_FOUND_MSG)
 
 
 class MyDecimal(Decimal):

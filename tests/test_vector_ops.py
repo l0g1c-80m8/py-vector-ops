@@ -48,12 +48,12 @@ print('second_dot_product: {}'.format(round(dot_product, 3)))
 
 v = Vector([3.183, -7.627])
 w = Vector([-2.668, 5.319])
-angle_rads = v.angle_with(w)
+angle_rads = v.get_angle_rad(w)
 print('first_angle_rads: {}'.format(angle_rads))
 
 v = Vector([7.35, 0.221, 5.188])
 w = Vector([2.751, 8.259, 3.985])
-angle_degrees = v.angle_with(w, in_degrees=True)
+angle_degrees = v.get_angle_deg(w)
 print('first_angle_rads: {}'.format(angle_degrees))
 
 # *****************

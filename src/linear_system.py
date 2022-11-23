@@ -71,7 +71,7 @@ class LinearSystem(object):
         recipient_plane = self[row_to_be_added_to]
         new_plane = _get_new_plane(coefficient, self[row_to_add])
         new_normal_vector = \
-            recipient_plane.normal_vector.plus(new_plane.normal_vector)
+            recipient_plane.normal_vector + new_plane.normal_vector
         constant_term = new_plane.constant_term + recipient_plane.constant_term
         self[row_to_be_added_to] = Hyperplane(normal_vector=new_normal_vector,
                                               constant_term=constant_term)
@@ -86,7 +86,7 @@ class LinearSystem(object):
                 p.first_nonzero_index(p.normal_vector)
                 indices[i] = p.first_nonzero_index(p.normal_vector)
             except Exception as e:
-                if str(e) == Plane.NO_NONZERO_ELTS_FOUND_MSG:
+                if str(e) == Plane.NO_NONZERO_ELE_FOUND_MSG:
                     continue
                 else:
                     raise e

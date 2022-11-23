@@ -90,6 +90,14 @@ class Vector(object):
             else:
                 raise e
 
+    def get_angle_rad(self, other):
+        dot_prod = round(self.normalize().dot_product(other.normalize()), 3)
+        return acos(dot_prod)
+
+    def get_angle_deg(self, other):
+        degrees_per_rad = 180. / pi
+        return degrees_per_rad * self.get_angle_rad(other)
+
     def is_zero(self):
         return set(self.coordinates) == {Decimal(0)}
 
@@ -100,8 +108,7 @@ class Vector(object):
         return (
                 self.is_zero() or
                 v.is_zero() or
-                self.angle_with(v) == 0 or
-                self.angle_with(v) == pi
+                self.get_angle_deg(v) in [0, 1]
         )
 
     def component_parallel_to(self, basis_v):
