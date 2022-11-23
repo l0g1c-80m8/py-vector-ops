@@ -1,6 +1,6 @@
 from decimal import Decimal, getcontext
 
-from vector import Vector
+from src.vector import Vector
 
 getcontext().prec = 30
 

@@ -40,7 +40,7 @@ class Vector(object):
     def magnitude(self):
         return math.sqrt(sum([math.pow(x, 2) for x in self.coordinates]))
 
-    def normalized(self):
+    def normalize(self):
         try:
             return self.scalar_product(1.0 / self.magnitude())
         except ZeroDivisionError:
@@ -51,8 +51,8 @@ class Vector(object):
 
     def angle_with(self, v, in_degrees=False):
         try:
-            u1 = self.normalized()
-            u2 = v.normalized()
+            u1 = self.normalize()
+            u2 = v.normalize()
             in_rads = math.acos(u1.dot_product(u2))
 
             return in_rads * (180.0 / math.pi) if in_degrees else in_rads
